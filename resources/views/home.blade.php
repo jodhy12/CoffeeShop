@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+@section('title', 'Dashboard')
 
 @section('content')
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -16,8 +16,12 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
             </div>
         </div>
     </div>
-</div>
 @endsection
