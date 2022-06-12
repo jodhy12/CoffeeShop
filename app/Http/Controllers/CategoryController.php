@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin:admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -37,7 +44,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'max:64', 'unique:categories,name']
+        ]);
+
+        Category::create($request->all());
+        return redirect('categories')->with('message', 'Data has been saved');
     }
 
     /**
@@ -59,7 +71,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -71,7 +83,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'max:64', 'unique:categories,name,' . $category->id . ',id']
+        ]);
+
+        $category->update($request->all());
+
+        return redirect('categories')->with('message', 'Data has been update');
     }
 
     /**
@@ -82,6 +100,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        return $category;
+        $dataId = $category->id;
+        $category->delete();
+        return redirect('categories')->with('message', 'Data ' . $dataId . ' has  been deleted');
     }
 }

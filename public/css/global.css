@@ -1,86 +1,26 @@
-.sidebar .nav-sidebar>.nav-item>.nav-link.active, .btnNew
-{
-    color: #eee;
-    background-color: #E0AB5B;
+/* https://colorhunt.co/palette/8e3200a64b2ad7a86effebc1 */
+
+div a.btn{
+    width: 200px;
 }
 
-.sidebar .nav-sidebar>.nav-item>.nav-link:hover{
-    background-color: rgba(224, 171, 91, 0.5);
-}
-
-.main-sidebar.sidebar
-{
-    background-color: #6E4C41;
-    box-shadow: 0px 14px rgba(110, 76, 65, 0.3);
-}
-
-.content-wrapper{
-    background-color: #E0ab5b;
-}
-
-.main-header, .login-page{
-    background-color: #FFE76A;
-    border-bottom: 0;
-    box-shadow: 0px 3px 6px -2px rgba(255, 231, 106, .75);
-}
-
-a, .nav-pills .nav-link{
-    color:  rgb(255, 231, 106);
-    font-weight: 400;
-}
-
-.nav-item{
-    margin-top: 10px;
-}
-
-a:hover, .nav-pills .nav-link:not(.active):hover{
-    color: #eee;
-}
-
-
-hr{
-    padding: 0;
+td.row{
     margin: 0;
-    background-color: rgb(255, 231, 106);
 }
 
-.bg-table{
-    background-color:  rgba(110, 76, 65, 0.3);
+td.row button:first-child{
+    margin-right: 10px;
 }
 
-.page-link:first-child{
-    border-left: 1px solid #eee;
+h5.card-title{
+    font-weight: 600;
 }
 
-.page-link{
-    border: none;
-    border-right: 1px solid #eee;
-    color: #000;
-    background-color: transparent;
+.count-carts{
+    float: right;
+    width: 30px;
+    text-align: center;
+    background-color: #ddd;
+    color: #111;
+    border-radius: 5px;
 }
-
-.page-link.active{
-    background-color: #6E4C41;
-}
-
-.page-link:hover{
-    color: #6E4C41;
-    background-color: #E0AB5B;
-}
-
-td .btnNew{
-    margin: 3px;
-}
-
-.nav-pills .nav-link.active{
-
-    background-color: #645f44;
-}
-
-.nav-pills .nav-link:hover{
-
-    background-color: #928c66;
-}
-/* https://colorhunt.co/palette/ffe76ae0ab5b94784c6e4c41 */
-
-/* font a rgb(255, 231, 106) */

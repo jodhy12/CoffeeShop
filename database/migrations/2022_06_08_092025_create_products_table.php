@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('qty');
             $table->integer('price');
             $table->unsignedBigInteger('category_id');
-            $table->string('image_path');
+            $table->string('image_path')->nullable();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');

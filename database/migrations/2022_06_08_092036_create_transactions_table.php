@@ -16,11 +16,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date_tx');
-            $table->string('name_cust', 64);
+            $table->string('name_cust', 64)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('member_id')->nullable();
             $table->integer('total');
-            $table->tinyInteger('status');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
