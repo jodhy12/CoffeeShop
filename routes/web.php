@@ -43,3 +43,5 @@ Route::delete('remove-cart', [CartController::class, 'removeCart'])->name('remov
 Route::resource('transactions', TransactionController::class)->only([
     'create', 'index', 'show', 'store'
 ]);
+
+Route::get('/upload-file', [ProductController::class, 'uploadFile'])->name('uploadFile');

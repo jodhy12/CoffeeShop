@@ -60,7 +60,10 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect('users')->with('message', 'Data Has Been Saved');
+        session()->flash('message', 'Data has been saved');
+        session()->flash('alert-class', 'alert-success');
+
+        return redirect('users');
     }
 
     /**
@@ -109,7 +112,9 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect('users')->with('message', 'Data Has Been Update');
+        session()->flash('message', 'Data has been updated');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('users');
     }
 
     /**
@@ -122,9 +127,15 @@ class UserController extends Controller
     {
         if ($user->role != 'admin') {
             $user->delete();
+
+            session()->flash('message', 'Data has been removed');
+            session()->flash('alert-class', 'alert-success');
+
             return redirect('users');
         }
 
+        session()->flash('message', 'Cannot delete this role');
+        session()->flash('alert-class', 'alert-danger');
         return redirect('users');
     }
 }

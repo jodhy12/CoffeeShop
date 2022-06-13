@@ -73,8 +73,8 @@
 
                             <input type="hidden" name="status" value="1">
 
-                            <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <div class="col-4 float-right">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             </div>
                         </form>
                     </div>

@@ -18,5 +18,15 @@ function removeQtyProduct($id, $qty)
 
 function countCarts()
 {
-    return count(session()->get('cart'));
+    if (session()->get('cart'))
+        return count(session()->get('cart'));
+    else
+        return 0;
+}
+
+function displayMessage()
+{
+    if (session()->has('message')) {
+        echo '<div class="alert ' . session()->get('alert-class', 'alert-info') . ' ">' . session()->get('message') . '</div>';
+    }
 }

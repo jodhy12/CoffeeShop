@@ -31,12 +31,14 @@
 
                                 <div id="guess" class="form-group" style="padding: 10px 0 0 0">
                                     <label>Name Customer</label>
-                                    <input type="text" class="form-control" placeholder="Enter Name" name="name_cust">
+                                    <input required type="text" class="form-control" placeholder="Enter Name"
+                                        name="name_cust">
                                 </div>
 
                                 <div hidden id="member" class="form-group" style="padding: 10px 0 0 0">
                                     <label>Name Member</label>
-                                    <select name="member_id" class="form-control">
+                                    <select name="member_id" class="form-control" disabled>
+                                        <option value="" selected hidden> Choose Member</option>
                                         <option :value="member.id" v-for="member in members">@{{ member.name }}
                                         </option>
                                     </select>
@@ -76,8 +78,7 @@
                                 <td class="text-center align-middle">Rp. @{{ numberFormat(cart.price) }}</td>
                                 <td class="text-center align-middle">
                                     <input readonly required type="number" :value="cart.qty"
-                                        style="width: 50px; border:none; border-radius:3px;"
-                                        @click.once="handleQty(key, $event)">
+                                        style="width: 50px; border:none; border-radius:3px;">
                                 </td>
                                 <td class="text-center align-middle">Rp. @{{ numberFormat(cart.qty * cart.price) }}</td>
                             </tr>
@@ -143,22 +144,21 @@
         }).mount('#controller')
     </script>
     <script>
-        $('input[name=name_cust]').prop('disabled', false)
-        $('#guess').prop('hidden', false)
-        $('select[name=name_cust]').prop('disabled', true)
-        $('#member').prop('hidden', true)
-
         $('#checkMember').on('change', () => {
             let checked = $('#checkMember').prop('checked')
             if (checked) {
                 $('input[name=name_cust]').prop('disabled', true)
+                $('input[name=name_cust]').prop('required', false)
                 $('#guess').prop('hidden', true)
-                $('select[name=name_cust]').prop('disabled', false)
+                $('select[name=member_id]').prop('disabled', false)
+                $('select[name=member_id]').prop('required', true)
                 $('#member').prop('hidden', false)
             } else {
                 $('input[name=name_cust]').prop('disabled', false)
+                $('input[name=name_cust]').prop('required', true)
                 $('#guess').prop('hidden', false)
-                $('select[name=name_cust]').prop('disabled', true)
+                $('select[name=member_id]').prop('disabled', true)
+                $('select[name=member_id]').prop('required', false)
                 $('#member').prop('hidden', true)
             }
         })

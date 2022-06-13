@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -16,7 +15,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.transaction.index');
     }
 
     /**
@@ -29,6 +28,12 @@ class TransactionController extends Controller
         $members = Member::all();
         $carts = session()->get('cart');
 
+        if (!$carts) {
+            session()->flash('message', 'Fill your cart before transaction');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect('carts');
+        }
+
         return view('admin.transaction.create', compact('carts', 'members'));
     }
 
@@ -40,10 +45,12 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, []);
+
         $data = $request->all();
 
-        // Get Data in Cart
-        $carts = session('cart');
+        // Get Data from Cart
+        $carts = session()->get('cart');
 
         // Get All Request Column Table Transaction
         if ($request->member_id) {
@@ -69,6 +76,8 @@ class TransactionController extends Controller
         // Clear all cart
         $request->session()->forget('cart');
 
+        session()->flash('message', 'Transaction Success');
+        session()->flash('alert-class', 'alert-success');
         return redirect('transactions');
     }
 

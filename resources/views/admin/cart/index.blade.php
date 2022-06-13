@@ -15,12 +15,7 @@
         </div>
 
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="aler alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
-
+            {{ displayMessage() }}
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -45,7 +40,7 @@
                         <td class="text-center align-middle">Rp. @{{ numberFormat(cart.price) }}</td>
                         <td class="text-center align-middle">
                             <input type="number" name="qty" :value="cart.qty"
-                                style="width: 50px; border:none; border-radius:3px;" @click.once="handleQty(key, $event)">
+                                style="width: 50px; border:none; border-radius:3px;" @change="handleQty(key, $event)">
                         </td>
                         <td class="text-center align-middle">Rp. @{{ numberFormat(cart.qty * cart.price) }}</td>
                         <td class="align-middle text-center">
@@ -63,8 +58,8 @@
                     </tr>
                     <tr>
                         <td colspan="7" class="text-right">
-                            <a href="{{ route('transactions.create') }}"><button
-                                    class="btn btn-primary">Checkout</button></a>
+                            <a href="{{ route('transactions.create') }}"><button class="btn btn-primary"
+                                    :disabled="carts.length == 0">Checkout</button></a>
                         </td>
                     </tr>
                 </tfoot>
@@ -94,6 +89,7 @@
 
             mounted() {
                 this.countTotal()
+                console.log(this.carts)
             },
 
             methods: {
@@ -111,20 +107,25 @@
                         this.total = this.subTotal.reduce((a, b) => a + b)
                     }
                 },
+
                 handleQty(id, e) {
                     let qty = e.target.value
                     if (qty == 0) {
-                        $.ajax({
-                            url: this.deleteUrl,
-                            method: 'delete',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                id: id
-                            },
-                            success: resp => {
-                                window.location.reload();
-                            }
-                        })
+                        if (confirm('Are you sure remove this cart ?')) {
+                            $.ajax({
+                                url: this.deleteUrl,
+                                method: 'delete',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    id: id
+                                },
+                                success: resp => {
+                                    window.location.reload();
+                                }
+                            })
+                        } else {
+                            window.location.reload();
+                        }
                     } else {
                         $.ajax({
                             url: this.updateUrl,
@@ -142,17 +143,19 @@
                 },
 
                 handleSubmit(id) {
-                    $.ajax({
-                        url: this.deleteUrl,
-                        method: 'delete',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            id: id
-                        },
-                        success: resp => {
-                            window.location.reload();
-                        }
-                    })
+                    if (confirm('Are you sure remove this cart?')) {
+                        $.ajax({
+                            url: this.deleteUrl,
+                            method: 'delete',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                id: id
+                            },
+                            success: resp => {
+                                window.location.reload();
+                            }
+                        })
+                    }
                 }
             }
 

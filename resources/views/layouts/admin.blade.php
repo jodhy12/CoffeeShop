@@ -44,7 +44,7 @@
                 <li class="nav-item">
                     <a href="{{ route('logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="nav-link">
+                        class="nav-link"><i class="fas fa-sign-out-alt"></i>
                         Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -96,9 +96,15 @@
                                 class="nav-link {{ request()->is('carts') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p> Cart </p>
-                                <div class="count-carts">
-                                    <p>{{ countCarts() }}</p>
-                                </div>
+                                <span class="badge badge-danger navbar-badge">{{ countCarts() }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('transactions.index') }}"
+                                class="nav-link {{ request()->is('transactions') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p> Transaction </p>
                             </a>
                         </li>
 
@@ -110,6 +116,14 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="{{ route('products.index') }}"
+                                class="nav-link {{ request()->is('products') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-coffee"></i>
+                                <p> Product </p>
+                            </a>
+                        </li>
+
                         @if (Auth::user()->role == 'admin')
                             <li class="nav-item">
                                 <a href="{{ route('categories.index') }}"
@@ -118,15 +132,6 @@
                                     <p> Category </p>
                                 </a>
                             </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('products.index') }}"
-                                    class="nav-link {{ request()->is('products') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-coffee"></i>
-                                    <p> Product </p>
-                                </a>
-                            </li>
-
 
                             <li class="nav-item">
                                 <a href="{{ route('users.index') }}"
@@ -167,19 +172,12 @@
 
             <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
-        </footer>
+
 
         <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
+        {{-- <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
-        </aside>
+        </aside> --}}
         <!-- /.control-sidebar -->
     </div>
 </body>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -11,7 +13,13 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('isAdmin:admin');
+        $this->middleware('isAdmin:admin')
+            ->only([
+                'create',
+                'edit',
+                'update',
+                'destroy'
+            ]);;
     }
 
     /**
@@ -32,7 +40,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.product.create', compact('categories'));
     }
 
     /**
@@ -41,11 +50,34 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        //
-    }
 
+        $this->validate($request, [
+            'image' => ['image', 'mimes:jpeg,png,jpg', 'max:1024']
+        ]);
+
+        $imageName = time() . '.' . $request->image->getClientOriginalExtension();
+        $destination = 'storage' . '/' . $imageName;
+        $request->image->move(public_path('storage'), $imageName);
+
+
+        $data = array(
+            'name' => ucwords($request->name),
+            'description' => ucfirst($request->description),
+            'qty' => $request->qty,
+            'price' => $request->price,
+            'category_id' => $request->category_id,
+            'image_path' => $destination
+        );
+
+        Product::create($data);
+
+        session()->flash('message', 'Data has been saved');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('products');
+    }
     /**
      * Display the specified resource.
      *
@@ -88,6 +120,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $image_path = public_path($product->image_path);
+        if (File::exists($image_path)) {
+            File::delete($image_path);
+        }
+
+        $product->delete();
+
+        session()->flash('message', 'Data has been deleted');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('products');
     }
 }

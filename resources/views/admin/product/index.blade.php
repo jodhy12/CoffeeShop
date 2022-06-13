@@ -13,11 +13,7 @@
         </div>
 
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="aler alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
+            {{ displayMessage() }}
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -38,13 +34,13 @@
                         <td class="align-middle">@{{ product.description }}</td>
                         <td class="text-center align-middle">@{{ product.category.name }}</td>
                         <td class="row justify-content-center">
-                            <div class="card" style="width: 7rem">
+                            <div class="card" style="width: 4rem">
                                 <img class="card-img-top" :src="'/' + product.image_path">
                             </div>
                         </td>
                         <td class="text-center align-middle">@{{ product.qty }}</td>
                         <td class="text-center align-middle">Rp. @{{ numberFormat(product.price) }}</td>
-                        <td class="row justify-content-around position-relative" style="bottom: 45px">
+                        <td class="row justify-content-around position-relative" style="bottom: 18px">
                             <button class="btn btn-warning btn-sm" title="Edit"><a
                                     :href="actionUrl + '/' + product.id + '/edit'"><i
                                         class="fas fa-edit "></i></a></button>
@@ -52,8 +48,8 @@
                                 @csrf
                                 @method('delete')
 
-                                <button type="submit" title="Delete" class="btn btn-danger btn-sm"><i
-                                        class="fas fa-trash"></i></button>
+                                <button onclick="return confirm('Are you sure delete this ?')" type="submit" title="Delete"
+                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>

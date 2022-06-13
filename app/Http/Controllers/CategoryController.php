@@ -49,7 +49,11 @@ class CategoryController extends Controller
         ]);
 
         Category::create($request->all());
-        return redirect('categories')->with('message', 'Data has been saved');
+
+        session()->flash('message', 'Data has been saved');
+        session()->flash('alert-class', 'alert-success');
+
+        return redirect('categories');
     }
 
     /**
@@ -89,7 +93,9 @@ class CategoryController extends Controller
 
         $category->update($request->all());
 
-        return redirect('categories')->with('message', 'Data has been update');
+        session()->flash('message', 'Data has been update');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('categories');
     }
 
     /**
@@ -102,6 +108,10 @@ class CategoryController extends Controller
     {
         $dataId = $category->id;
         $category->delete();
-        return redirect('categories')->with('message', 'Data ' . $dataId . ' has  been deleted');
+
+        session()->flash('message', 'Data ' . $dataId . ' has been removed');
+        session()->flash('alert-class', 'alert-success');
+
+        return redirect('categories');
     }
 }

@@ -5,33 +5,30 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-3">
-                    Category Search
+                    Category Filter
                 </div>
             </div>
         </div>
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="aler alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
+            {{ displayMessage() }}
 
             <div class="row">
-                <div class="col-md-4" v-for="product in products.data">
-                    <div class="card text-center" style="width: 15rem">
+                <div class="col-md-3" v-for="product in products.data">
+                    <div class="card text-center" style="width: 13rem">
                         <img :src="'/' + product.image_path" alt="Coffee Shop" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">@{{ product.name }}</h5>
                             <p class="card-text pt-3">@{{ product.description }}</p>
                             <p class="card-text">Rp. @{{ numberFormat(product.price) }}</p>
-                            <a class="btn btn-primary btn-sm" :href="'http://localhost:8000/add-to-cart/' + product.id">Add
-                                to
-                                cart</a>
+                            <a :href="'http://localhost:8000/add-to-cart/' + product.id">
+                                <button class="btn btn-primary btn-sm">Add to cart</button>
+                            </a>
                         </div>
                     </div>
                 </div>
 
             </div>
+
         </div>
 
     </div>

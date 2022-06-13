@@ -15,6 +15,9 @@ class CartController extends Controller
     public function index()
     {
         $carts = session()->get('cart');
+        if (!$carts) {
+            $carts = [];
+        }
         return view('admin.cart.index', compact('carts'));
     }
 
@@ -25,6 +28,11 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
+            if ($cart[$id]['qty'] >= $product->qty) {
+                session()->flash('message', 'Not enough quantity, Quantity max is ' . $product->qty . '');
+                session()->flash('alert-class', 'alert-danger');
+                return redirect()->back();
+            }
             $cart[$id]['qty']++;
         } else {
             $cart[$id] = [
@@ -36,16 +44,28 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return redirect()->back()->with('message', 'Product added to cart');
+
+        session()->flash('message', '' . $product->name . ' added to cart');
+        session()->flash('alert-class', 'alert-success');
+        return redirect()->back();
     }
 
     public function updateCart(Request $request)
     {
+        $product = Product::findOrFail($request->id);
         if ($request->id && $request->qty) {
-            $cart = session()->get('cart');
-            $cart[$request->id]['qty'] = $request->qty;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart Updated');
+            if ($request->qty > $product->id) {
+                session()->flash('message', 'Not enough quantity, Quantity max is ' . $product->qty . '');
+                session()->flash('alert-class', 'alert-danger');
+            } else {
+                $cart = session()->get('cart');
+                $cart[$request->id]['qty'] = $request->qty;
+
+                session()->put('cart', $cart);
+
+                session()->flash('message', 'Cart Updated');
+                session()->flash('alert-class', 'alert-success');
+            }
         }
     }
 
@@ -58,7 +78,8 @@ class CartController extends Controller
                 session()->put('cart', $cart);
             }
 
-            session()->flash('success', 'Product removed');
+            session()->flash('message', 'Product removed');
+            session()->flash('alert-class', 'alert-success');
         }
     }
 }

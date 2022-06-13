@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->paginate(10);
+        $products = Product::with('category')->paginate(12);
         return view('admin.dashboard', compact('products'));
     }
 }

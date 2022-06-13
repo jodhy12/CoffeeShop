@@ -14,11 +14,7 @@
         </div>
 
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="aler alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
+            {{ displayMessage() }}
             <div v-if="categories.data.length > 0">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -43,8 +39,8 @@
                                     @csrf
                                     @method('delete')
 
-                                    <button type="submit" title="Delete" class="btn btn-danger btn-sm"><i
-                                            class="fas fa-trash"></i></button>
+                                    <button onclick="return confirm('Are you sure delete this ?')" type="submit"
+                                        title="Delete" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                 </form>
                             </td>
                         </tr>
