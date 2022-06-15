@@ -16,7 +16,7 @@
         <div class="card-body">
             {{ displayMessage() }}
 
-            <table class="table table-bordered table-striped">
+            <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
@@ -42,9 +42,11 @@
                         </td>
                         <td>@{{ user.role }}</td>
                         <td class="row justify-content-center">
-                            <button class="btn btn-warning btn-sm" title="Edit"><a
-                                    :href="actionUrl + '/' + user.id + '/edit'"><i class="fas fa-edit "></i></a></button>
-
+                            <a :href="actionUrl + '/' + user.id + '/edit'" v-if="user.role != 'admin'">
+                                <button class="btn btn-warning btn-sm" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </a>
                             <form :action="actionUrl + '/' + user.id" method="POST" v-if="user.role != 'admin'">
                                 @csrf
                                 @method('delete')
@@ -75,7 +77,9 @@
                 }
             },
 
-            mounted() {}
+            mounted() {
+                $('#datatable').DataTable()
+            }
 
         }).mount('#controller')
     </script>

@@ -9,6 +9,13 @@ function dateGMT($value)
     return $date->format('Y-m-d H:i:s');
 }
 
+function dateGMT7($value)
+{
+    $date = new DateTime($value);
+    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    return $date->format('d-m-Y');
+}
+
 function removeQtyProduct($id, $qty)
 {
     $product = Product::findOrFail($id);

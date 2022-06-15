@@ -71,7 +71,8 @@
                                 <td class="text-center align-middle">@{{ index + 1 }}</td>
                                 <td class="row justify-content-center">
                                     <div class="card" style="width: 7rem">
-                                        <img class="card-img-top" :src="'/' + cart.image_path">
+                                        <img v-if="exists[index]" class="card-img-top" :src="'/' + cart.image_path">
+                                        <img v-else class="card-img-top" :src="'/storage/default.jpg'">
                                     </div>
                                 </td>
                                 <td class="align-middle">@{{ cart.name }}</td>
@@ -115,6 +116,7 @@
                 return {
                     carts: {!! json_encode($carts) !!},
                     members: {!! json_encode($members) !!},
+                    exists: {!! json_encode($exists) !!},
                     subTotal: [],
                     total: 0
                 }

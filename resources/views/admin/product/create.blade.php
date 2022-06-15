@@ -47,8 +47,7 @@
                                 <label>Choose Image</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input required type="file" class="custom-file-input" name="image"
-                                            accept=".jpg,.jpeg,.png">
+                                        <input type="file" class="custom-file-input" name="image" accept=".jpg,.jpeg,.png">
                                         <label class="custom-file-label">Choose file</label>
                                     </div>
                                 </div>

@@ -64,7 +64,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        abort(404, 'Page Not Found');
     }
 
     /**

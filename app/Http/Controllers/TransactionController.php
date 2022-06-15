@@ -4,10 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class TransactionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin:admin')->only([
+            'edit',
+            'delete',
+            'update',
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +29,15 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('admin.transaction.index');
+        if (Auth::user()->role == 'admin') {
+            $transactions = Transaction::with('products', 'member', 'user')->get();
+        } else {
+            $transactions = Transaction::with('products', 'member', 'user')
+                ->whereRaw('day(date_tx) = day(curdate())')
+                ->get();
+        }
+        $pivotQty = TransactionDetail::selectRaw('sum(qty) as total')->groupBy('transaction_id')->get();
+        return view('admin.transaction.index', compact('transactions', 'pivotQty'));
     }
 
     /**
@@ -25,16 +47,23 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
+        $exists = [];
         $members = Member::all();
         $carts = session()->get('cart');
 
+        foreach ($carts as $cart) {
+            array_push($exists, File::exists($cart['image_path']));
+        }
+
+        // If carts null, redirect to carts page
         if (!$carts) {
             session()->flash('message', 'Fill your cart before transaction');
             session()->flash('alert-class', 'alert-danger');
             return redirect('carts');
         }
 
-        return view('admin.transaction.create', compact('carts', 'members'));
+        // If carts not null, go here
+        return view('admin.transaction.create', compact('carts', 'members', 'exists'));
     }
 
     /**
@@ -45,7 +74,12 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, []);
+        $this->validate($request, [
+            'name_cust' => ['required_without:member_id', 'max:64'],
+            'member_id' => ['required_without:name_cust'],
+            'total' => ['required'],
+            'date_tx' => ['required'],
+        ]);
 
         $data = $request->all();
 
@@ -66,7 +100,7 @@ class TransactionController extends Controller
         foreach ($carts as $key => $cart) {
             $transaction->products()->attach($key, [
                 'qty' => $cart['qty'],
-                'price' => $cart['price']
+                'price' => $cart['price'] * $cart['qty']
             ]);
 
             // Remove quantity from Product
@@ -89,7 +123,8 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        $transaction = Transaction::with('products', 'member', 'user')->findOrFail($transaction->id);
+        return view('admin.transaction.show', compact('transaction'));
     }
 
     /**

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
+use function PHPUnit\Framework\isNull;
 
 class HomeController extends Controller
 {
@@ -25,7 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->paginate(12);
-        return view('admin.dashboard', compact('products'));
+        $exists = [];
+        $products = Product::with('category')
+            ->orderByRaw('qty > 0 desc')
+            ->orderBy('id')
+            ->paginate(12);
+
+        foreach ($products as $key => $product) {
+            $exists[$key] = File::exists($product->image_path);
+        }
+
+        return view('admin.dashboard', compact('products', 'exists'));
     }
 }

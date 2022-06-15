@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+]);
 
 Route::get('/', function () {
     return redirect('home');
@@ -30,10 +33,10 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::resource('categories', CategoryController::class)->except(['show']);
-Route::resource('products', ProductController::class)->except(['show']);
-Route::resource('users', UserController::class)->except(['show']);
-Route::resource('members', MemberController::class)->except(['show']);
+Route::resource('categories', CategoryController::class);
+Route::resource('products', ProductController::class);
+Route::resource('users', UserController::class);
+Route::resource('members', MemberController::class);
 
 Route::get('/carts', [CartController::class, 'index'])->name('carts.index');
 Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('addToCart');
@@ -44,4 +47,6 @@ Route::resource('transactions', TransactionController::class)->only([
     'create', 'index', 'show', 'store'
 ]);
 
-Route::get('/upload-file', [ProductController::class, 'uploadFile'])->name('uploadFile');
+
+Route::get('/daily-report', [ReportController::class, 'daily'])->name('dailyReport');
+Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('monthlyReport');

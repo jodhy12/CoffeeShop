@@ -14,12 +14,8 @@
         </div>
 
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="aler alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
-            <table class="table table-bordered table-striped">
+            {{ displayMessage() }}
+            <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
@@ -33,8 +29,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(member, value) in members.data">
-                        <td class="text-center">@{{ members.from + value }}</td>
+                    <tr v-for="(member, value) in members">
+                        <td class="text-center">@{{ value + 1 }}</td>
                         <td>@{{ member.name }}</td>
                         <td>@{{ member.gender == 'L' ? 'Laki - Laki' : 'Perempuan' }}</td>
                         <td>@{{ member.phone_number }}</td>
@@ -46,9 +42,11 @@
                         </td>
                         @if (Auth::user()->role == 'admin')
                             <td class="row justify-content-center">
-                                <button class="btn btn-warning btn-sm" title="Edit"><a
-                                        :href="actionUrl + '/' + member.id + '/edit'"><i
-                                            class="fas fa-edit "></i></a></button>
+                                <a :href="actionUrl + '/' + member.id + '/edit'">
+                                    <button class="btn btn-warning btn-sm" title="Edit">
+                                        <i class="fas fa-edit "></i>
+                                    </button>
+                                </a>
                                 <form :action="actionUrl + '/' + member.id" method="POST">
                                     @csrf
                                     @method('delete')
@@ -61,21 +59,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="card-footer clearfix" v-if="members.data > members.per_page">
-            <ul class="pagination float-right">
-                <li class="page-item">
-                    <a class="page-link" :href="members.prev_page_url">&laquo;</a>
-                </li>
-                <li v-for="value in members.last_page" class="page-item">
-                    <a class="page-link" :class="{ active: value == members.current_page }"
-                        :href="urlPage + value">@{{ value }}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" :href="members.next_page_url">&raquo;</a>
-                </li>
-            </ul>
         </div>
     </div>
 @endsection
@@ -90,12 +73,13 @@
             data() {
                 return {
                     actionUrl: '{{ route('members.index') }}',
-                    urlPage: 'http://localhost:8000/members?page=',
                     members: {!! json_encode($members) !!}
                 }
             },
 
-            mounted() {}
+            mounted() {
+                $('#datatable').DataTable()
+            }
 
         }).mount('#controller')
     </script>

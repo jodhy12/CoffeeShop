@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\Exists;
 
 class CartController extends Controller
 {
@@ -14,16 +16,26 @@ class CartController extends Controller
 
     public function index()
     {
+        $exists = [];
         $carts = session()->get('cart');
         if (!$carts) {
             $carts = [];
         }
-        return view('admin.cart.index', compact('carts'));
+        foreach ($carts as $cart) {
+            array_push($exists, File::exists($cart['image_path']));
+        }
+        return view('admin.cart.index', compact('carts', 'exists'));
     }
 
     public function addToCart($id)
     {
         $product = Product::findOrFail($id);
+
+        if (!$product->qty) {
+            session()->flash('message', 'Out of Stock, Please order back !!!');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
 
         $cart = session()->get('cart', []);
 
@@ -34,6 +46,7 @@ class CartController extends Controller
                 return redirect()->back();
             }
             $cart[$id]['qty']++;
+            $cart[$id]['price'] = $cart[$id]['price'] * $cart[$id]['qty'];
         } else {
             $cart[$id] = [
                 'name' => $product->name,
@@ -45,7 +58,7 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        session()->flash('message', '' . $product->name . ' added to cart');
+        session()->flash('message', '' . $product->name . ' added to cart, <a href="' . route('carts.index') . '">Check your transaction here</a>');
         session()->flash('alert-class', 'alert-success');
         return redirect()->back();
     }
@@ -54,7 +67,7 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($request->id);
         if ($request->id && $request->qty) {
-            if ($request->qty > $product->id) {
+            if ($request->qty > $product->qty) {
                 session()->flash('message', 'Not enough quantity, Quantity max is ' . $product->qty . '');
                 session()->flash('alert-class', 'alert-danger');
             } else {
@@ -78,7 +91,7 @@ class CartController extends Controller
                 session()->put('cart', $cart);
             }
 
-            session()->flash('message', 'Product removed');
+            session()->flash('message', 'Cart removed');
             session()->flash('alert-class', 'alert-success');
         }
     }

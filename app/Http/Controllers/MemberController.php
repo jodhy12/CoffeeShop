@@ -25,7 +25,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::paginate(10);
+        $members = Member::all();
         return view('admin.member.index', compact('members'));
     }
 
@@ -48,7 +48,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required'],
+            'name' => ['required', 'max:64'],
             'gender' => ['required'],
             'phone_number' => ['required', 'min:10', 'max:13', 'unique:members'],
             'status' => ['required', 'boolean'],
@@ -59,7 +59,9 @@ class MemberController extends Controller
         $data['status'] = intval($data['status']);
         Member::create($data);
 
-        return redirect('members')->with('message', 'Data has been saved');
+        session()->flash('message', 'Data has been added');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('members');
     }
 
     /**
@@ -70,7 +72,7 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        abort(404, 'Page Not Found');
     }
 
     /**
@@ -81,7 +83,7 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
-        //
+        return view('admin.member.edit', compact('member'));
     }
 
     /**
@@ -93,7 +95,18 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'max:64'],
+            'gender' => ['required'],
+            'phone_number' => ['required', 'min:10', 'max:13', 'unique:members,phone_number,' . $member->id . ',id'],
+            'status' => ['required', 'boolean'],
+        ]);
+
+        $member->update($request->all());
+
+        session()->flash('message', 'Data has been update');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('members');
     }
 
     /**
@@ -104,6 +117,6 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
-        //
+        return 'Not Finish Yet';
     }
 }

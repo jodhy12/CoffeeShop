@@ -22,6 +22,6 @@ class isAdmin
         if (in_array($is_admin, $role_array)) {
             return $next($request);
         }
-        return abort('403');
+        return abort(403, 'Forbidden, Unauthorized Action');
     }
 }
