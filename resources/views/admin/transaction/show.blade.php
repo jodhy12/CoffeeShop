@@ -35,7 +35,8 @@
                         <div class="grid-form">
                             <label>ID Transaction</label>
                             <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
-                                <input disabled type="text" class="form-control-plaintext" value="{{ $transaction->id }}">
+                                <input disabled type="text" class="form-control-plaintext"
+                                    value="{{ $transaction->id }}">
                             </div>
                         </div>
 
@@ -98,7 +99,7 @@
                     <div class="card-footer justify-content-between">
                         <a href="{{ route('transactions.index') }}">
                             <button type="button" class="btn btn-default">
-                                <span>Cancel</span>
+                                <span>Back</span>
                             </button>
                         </a>
                     </div>

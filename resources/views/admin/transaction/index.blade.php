@@ -1,20 +1,24 @@
 @extends('layouts.admin')
-@section('title', 'Transaction')
+@section('title', ' Transaction')
 @section('content')
     <div id="controller">
-        @if (Auth::user()->role != 'admin')
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card card-default">
-                        <div class="card-header">
-                            <h3 class="card-title text-center">
-                                List of transaction for date <b>{{ dateGMT7(date('Y-m-d H:i:s')) }}</b>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-default align-items-center">
+                    <div class="card-header">
+                        @if (Auth::user()->role != 'admin')
+                            <h3 class="card-title">
+                                List of transaction Period <b>{{ dateGMT7(date('Y-m-d H:i:s')) }}</b>
                             </h3>
-                        </div>
+                        @else
+                            <h3 class="card-title">
+                                <b>All Transactions</b>
+                            </h3>
+                        @endif
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
 
         <div class="card-body">
             {{ displayMessage() }}

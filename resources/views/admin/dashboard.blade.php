@@ -3,9 +3,25 @@
 @section('content')
     <div id="controller">
         <div class="card-header">
-            <div class="row">
+            <div class="row justify-content-between">
                 <div class="col-md-3">
-                    Category Filter
+                    <div class="form-group">
+                        <label>Select Category</label>
+                        <select name="categories" class="form-control" @change="getValFilter">
+                            <option value="0" selected>All Categories</option>
+                            <option v-for="category in categories" :value="category.id">@{{ category.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label>Search Produk</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Search by name"
+                            v-model="search">
+                    </div>
                 </div>
             </div>
         </div>
@@ -13,9 +29,10 @@
             {{ displayMessage() }}
 
             <div class="row">
-                <div class="col-md-3" v-for="(product,key) in products.data">
+                <div class="col-md-3" v-for="product in filteredProduct">
                     <div class="card text-center" style="width: 13rem">
-                        <img v-if="exists[key]" :src="'/' + product.image_path" alt="Coffee Shop" class="card-img-top">
+                        <img v-if="product.image_path != 'default'" :src="'/' + product.image_path" alt="Coffee Shop"
+                            class="card-img-top">
                         <img v-else :src="'/storage/default.jpg'" alt="Coffee Shop" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">@{{ product.name }}</h5>
@@ -34,21 +51,6 @@
 
             </div>
 
-            <div class="card-footer clearfix" v-if="products.data > products.per_page">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" :href="products.prev_page_url">&laquo;</a>
-                    </li>
-                    <li v-for="value in products.last_page" class="page-item">
-                        <a class="page-link" :class="{ active: value == products.current_page }"
-                            :href="urlPage + value">@{{ value }}</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" :href="products.next_page_url">&raquo;</a>
-                    </li>
-                </ul>
-            </div>
-
 
         </div>
 
@@ -63,17 +65,38 @@
         createApp({
             data() {
                 return {
-                    urlPage: 'http://localhost:8000/home?page=',
                     products: {!! json_encode($products) !!},
-                    exists: {!! json_encode($exists) !!},
+                    categories: {!! json_encode($categories) !!},
+                    current: null,
+                    search: '',
                 }
             },
 
-            mounted() {},
+            mounted() {
+
+            },
 
             methods: {
                 numberFormat(x) {
                     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                },
+                getValFilter() {
+                    const data = $('select[name=categories]').val()
+                    this.current = data
+                }
+            },
+
+            computed: {
+                filteredProduct() {
+                    if (this.current != 0 && this.current)
+                        return this.products.filter(product => {
+                            return product.category_id == this.current &&
+                                product.name.toLowerCase().includes(this.search.toLowerCase())
+                        })
+                    else
+                        return this.products.filter(product => {
+                            return product.name.toLowerCase().includes(this.search.toLowerCase())
+                        })
                 }
             }
         }).mount('#controller')

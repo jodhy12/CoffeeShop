@@ -38,10 +38,12 @@ Route::resource('products', ProductController::class);
 Route::resource('users', UserController::class);
 Route::resource('members', MemberController::class);
 
+// Session Cart
 Route::get('/carts', [CartController::class, 'index'])->name('carts.index');
 Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('addToCart');
 Route::put('update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 Route::delete('remove-cart', [CartController::class, 'removeCart'])->name('removeCart');
+// End Cart
 
 Route::resource('transactions', TransactionController::class)->only([
     'create', 'index', 'show', 'store'
@@ -49,4 +51,7 @@ Route::resource('transactions', TransactionController::class)->only([
 
 
 Route::get('/daily-report', [ReportController::class, 'daily'])->name('dailyReport');
+Route::get('/api/daily-report', [ReportController::class, 'apiDaily'])->name('apiDailyReport');
+
 Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('monthlyReport');
+Route::get('/api/monthly-report', [ReportController::class, 'apiMonthly'])->name('apiMonthlyReport');

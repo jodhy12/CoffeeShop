@@ -29,15 +29,11 @@ class HomeController extends Controller
     public function index()
     {
         $exists = [];
-        $products = Product::with('category')
-            ->orderByRaw('qty > 0 desc')
-            ->orderBy('id')
-            ->paginate(12);
+        $products = Product::orderByRaw('qty > 0 desc')
+            ->orderBy('id')->get();
+        $categories = Category::all();
 
-        foreach ($products as $key => $product) {
-            $exists[$key] = File::exists($product->image_path);
-        }
 
-        return view('admin.dashboard', compact('products', 'exists'));
+        return view('admin.dashboard', compact('products', 'exists', 'categories'));
     }
 }

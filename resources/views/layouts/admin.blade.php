@@ -147,6 +147,31 @@
                                     <p> User </p>
                                 </a>
                             </li>
+
+                            <li
+                                class="nav-item {{ request()->is('daily-report') || request()->is('monthly-report') ? 'menu-open' : '' }}">
+                                <a href="#"
+                                    class="nav-link {{ request()->is('daily-report') || request()->is('monthly-report') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    <p> Report<i class="right fas fa-angle-left"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('dailyReport') }}"
+                                            class="nav-link {{ request()->is('daily-report') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-chevron-right"></i>
+                                            <p> Daily Report </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('monthlyReport') }}"
+                                            class="nav-link {{ request()->is('monthly-report') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-chevron-right"></i>
+                                            <p> Monthly Report </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         @endif
 
                     </ul>

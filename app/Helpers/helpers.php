@@ -16,6 +16,21 @@ function dateGMT7($value)
     return $date->format('d-m-Y');
 }
 
+
+function dateDbGMT7($value)
+{
+    $date = new DateTime($value);
+    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    return $date->format('Y-m-d');
+}
+
+function monthGMT7($value)
+{
+    $date = new DateTime($value);
+    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    return $date->format('F');
+}
+
 function removeQtyProduct($id, $qty)
 {
     $product = Product::findOrFail($id);
