@@ -79,7 +79,11 @@ class ReportController extends Controller
 
         for ($i = 1; $i <= $countDayInMonth; $i++) {
             $labelDay[$i - 1] = $i;
-            $incomeDay = Transaction::selectRaw('sum(total) as newPrice')->whereDate('date_tx', '2022-' . $month['month'] . '-' . $i . '')->groupByRaw('date(date_tx)')->pluck('newPrice');
+            $incomeDay = Transaction::selectRaw('sum(total) as newPrice')
+                ->whereDate('date_tx', '2022-' . $month['month'] . '-' . $i . '')
+                ->groupByRaw('date(date_tx)')
+                ->pluck('newPrice');
+
             if (count($incomeDay)) {
                 $dataDay[$i - 1] = intval($incomeDay[0]);
             } else {
