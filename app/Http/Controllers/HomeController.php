@@ -28,12 +28,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $exists = [];
         $products = Product::orderByRaw('qty > 0 desc')
             ->orderBy('id')->get();
         $categories = Category::all();
 
-
-        return view('admin.dashboard', compact('products', 'exists', 'categories'));
+        return view('admin.dashboard', compact('products', 'categories'));
     }
 }

@@ -16,15 +16,12 @@ class CartController extends Controller
 
     public function index()
     {
-        $exists = [];
         $carts = session()->get('cart');
         if (!$carts) {
             $carts = [];
         }
-        foreach ($carts as $cart) {
-            array_push($exists, File::exists($cart['image_path']));
-        }
-        return view('admin.cart.index', compact('carts', 'exists'));
+
+        return view('admin.cart.index', compact('carts'));
     }
 
     public function addToCart($id)
@@ -41,7 +38,7 @@ class CartController extends Controller
 
         if (isset($cart[$id])) {
             if ($cart[$id]['qty'] >= $product->qty) {
-                session()->flash('message', 'Not enough quantity, Quantity max is ' . $product->qty . '');
+                session()->flash('message', 'Not enough quantity, Quantity max from ' . $product->name . ' is ' . $product->qty . '');
                 session()->flash('alert-class', 'alert-danger');
                 return redirect()->back();
             }
@@ -68,7 +65,7 @@ class CartController extends Controller
         $product = Product::findOrFail($request->id);
         if ($request->id && $request->qty) {
             if ($request->qty > $product->qty) {
-                session()->flash('message', 'Not enough quantity, Quantity max is ' . $product->qty . '');
+                session()->flash('message', 'Not enough quantity, Quantity max from ' . $product->name . ' is ' . $product->qty . '');
                 session()->flash('alert-class', 'alert-danger');
             } else {
                 $cart = session()->get('cart');

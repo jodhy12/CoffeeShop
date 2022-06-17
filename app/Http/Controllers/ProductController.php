@@ -25,11 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
-        $exists = [];
-        foreach ($products as $key => $product) {
-            $exists[$key] = File::exists($product->image_path);
-        }
-        return view('admin.product.index', compact('products', 'exists'));
+        return view('admin.product.index', compact('products'));
     }
 
     /**

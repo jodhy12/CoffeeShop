@@ -33,7 +33,7 @@
                         <td class="text-center align-middle">@{{ index + 1 }}</td>
                         <td class="row justify-content-center">
                             <div class="card" style="width: 7rem">
-                                <img v-if="exists[index]" class="card-img-top" :src="'/' + cart.image_path">
+                                <img v-if="cart.image_path != 'default'" class="card-img-top" :src="'/' + cart.image_path">
                                 <img v-else class="card-img-top" :src="'/storage/default.jpg'">
                             </div>
                         </td>
@@ -80,7 +80,6 @@
             data() {
                 return {
                     carts: {!! json_encode($carts) !!},
-                    exists: {!! json_encode($exists) !!},
                     subTotal: [],
                     total: 0,
                     updateUrl: '{{ route('updateCart') }}',

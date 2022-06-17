@@ -47,13 +47,8 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
-        $exists = [];
         $members = Member::all();
         $carts = session()->get('cart');
-
-        foreach ($carts as $cart) {
-            array_push($exists, File::exists($cart['image_path']));
-        }
 
         // If carts null, redirect to carts page
         if (!$carts) {
@@ -63,7 +58,7 @@ class TransactionController extends Controller
         }
 
         // If carts not null, go here
-        return view('admin.transaction.create', compact('carts', 'members', 'exists'));
+        return view('admin.transaction.create', compact('carts', 'members'));
     }
 
     /**

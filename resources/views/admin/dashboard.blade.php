@@ -36,8 +36,11 @@
                         <img v-else :src="'/storage/default.jpg'" alt="Coffee Shop" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">@{{ product.name }}</h5>
-                            <p class="card-text text-danger pt-3" style="height: 40px;">
-                                <span v-if="!product.qty">(Out of stock)</span>
+                            <p v-if="!product.qty" class="card-text text-danger pt-3" style="height: 40px;">
+                                <span>(Out of stock)</span>
+                            </p>
+                            <p v-else class="card-text pt-3" style="height: 40px;">
+                                <span>Quantity : @{{ product.qty }}</span>
                             </p>
                             <p class="card-text">@{{ product.description ? product.description : 'No Description' }} </p>
                             <p class="card-text">Rp. @{{ numberFormat(product.price) }}</p>

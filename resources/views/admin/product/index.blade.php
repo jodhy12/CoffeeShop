@@ -41,7 +41,8 @@
                         <td class="text-center align-middle">@{{ product.category.name }}</td>
                         <td class="row justify-content-center">
                             <div class="card" style="width: 4rem">
-                                <img v-if="exists[value]" class="card-img-top" :src="'/' + product.image_path">
+                                <img v-if="product.image_path != 'default'" class="card-img-top"
+                                    :src="'/' + product.image_path">
                                 <img v-else class="card-img-top" :src="'/storage/default.jpg'">
                             </div>
                         </td>
@@ -84,13 +85,11 @@
                 return {
                     actionUrl: '{{ route('products.index') }}',
                     products: {!! json_encode($products) !!},
-                    exists: {!! json_encode($exists) !!},
                 }
             },
 
             mounted() {
                 $('#datatable').DataTable()
-                console.log(this.exists)
             },
 
             methods: {
