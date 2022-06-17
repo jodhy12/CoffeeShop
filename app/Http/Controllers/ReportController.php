@@ -91,7 +91,6 @@ class ReportController extends Controller
             }
         }
 
-
         $datatables = datatables()->of($txDetails)->addIndexColumn()
             ->with('total', intval($totalIncome[0]))
             ->with('label', $labelDay)
