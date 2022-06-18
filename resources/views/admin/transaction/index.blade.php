@@ -56,10 +56,105 @@
                                     <i class="fa fa-eye"></i>
                                 </button>
                             </a>
+                            <a @click="getDetails(transaction)" href="#" title="Detail">
+                                <button class="btn btn-warning btn-sm">
+                                    <i class="fa fa-eye"></i>
+                                    Modal
+                                </button>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <div class="modal-title">Detail Transaction</div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" v-if="transaction">
+                        <div class="grid-container">
+                            <div class="grid-form">
+                                <label>ID Transaction</label>
+                                <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
+                                    <input disabled type="text" class="form-control-plaintext" :value="transaction.id">
+                                </div>
+                            </div>
+
+                            <div class="grid-form">
+                                <label>Datetime Transaction</label>
+                                <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
+                                    <input disabled type="text" class="form-control-plaintext"
+                                        :value="getDateFormat(transaction.date_tx) + ', Time ' + getTimeFormat(transaction
+                                            .date_tx)">
+                                </div>
+                            </div>
+
+                            <div class="grid-form">
+                                <label>Name Employee</label>
+                                <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
+                                    <input disabled class="form-control-plaintext" :value="transaction.user.name">
+                                </div>
+                            </div>
+
+                            <div class="grid-form">
+                                <label>Name Customer</label>
+                                <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
+                                    <input disabled class="form-control-plaintext"
+                                        :value="transaction.member ? transaction.member.name + ' (Member)' : transaction
+                                            .name_cust +
+                                            ' (Not Member)'">
+                                </div>
+                            </div>
+
+                            <div class="grid-form">
+                                <label>Product</label>
+                                <div class="card-body table-responsive p-0" style="height:200px;">
+                                    <table class="table table-head-fixed text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Harga</th>
+                                                <th class="text-center">Qty</th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="product in transaction.products">
+                                                <td>@{{ product.name }}</td>
+                                                <td>Rp. @{{ numberFormat(product.price) }}</td>
+                                                <td>@{{ product.pivot.qty }}</td>
+                                                <td>Rp. @{{ numberFormat(product.pivot.price) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="grid-form">
+                                <label>Total Payment</label>
+                                <div class="col-sm-12" style="background-color: rgb(194, 184, 184); border-radius: 4px;">
+                                    <input disabled class="form-control-plaintext"
+                                        :value="'Rp. ' + numberFormat(transaction.total)">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button @click="modalClose" type="button" class="btn btn-default">
+                                <span>Back</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     @endsection
@@ -76,6 +171,7 @@
                         actionUrl: '{{ route('transactions.index') }}',
                         transactions: {!! json_encode($transactions) !!},
                         pivotQty: {!! json_encode($pivotQty) !!},
+                        transaction: null,
                     }
                 },
 
@@ -86,6 +182,15 @@
                 },
 
                 methods: {
+                    getDetails(transaction) {
+                        this.transaction = transaction
+                        $('#modal-lg').modal()
+                    },
+
+                    modalClose() {
+                        $('#modal-lg').modal('hide')
+                    },
+
                     getDateFormat(x) {
                         const d = new Date(x)
                         let getYear = d.getFullYear()
@@ -104,6 +209,7 @@
                         const date = getDate + '-' + getMonth + '-' + getYear
                         return date;
                     },
+
                     getTimeFormat(x) {
                         const d = new Date(x)
                         let getHours = d.getHours()
@@ -122,6 +228,7 @@
                         const time = getHours + ':' + getMinutes + ':' + getSeconds;
                         return time;
                     },
+
                     numberFormat(x) {
                         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                     },
@@ -129,5 +236,27 @@
                 }
             }).mount('#controller')
         </script>
+        <style>
+            td a button {
+                margin: 3px;
+            }
 
+            .grid-container {
+                display: grid;
+                grid-template-columns: 1fr;
+                margin: 20px 10px;
+                gap: 20px;
+            }
+
+            .grid-container label {
+                margin: 0;
+            }
+
+            .grid-form {
+                display: grid;
+                grid-template-columns: 1fr 1.5fr;
+                padding-bottom: 10px;
+                align-items: center;
+            }
+        </style>
     @endsection
