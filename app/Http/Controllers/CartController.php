@@ -55,7 +55,7 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        session()->flash('message', '' . $product->name . ' added to cart, <a href="' . route('carts.index') . '">Check your transaction here</a>');
+        session()->flash('message', '<b>' . $product->name . '</b> added to cart, <a href="' . route('carts.index') . '">Check your transaction here</a>');
         session()->flash('alert-class', 'alert-success');
         return redirect()->back();
     }

@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(user, value) in users">
-                        <td>@{{ value + 1 }}</td>
+                        <td class="text-center">@{{ value + 1 }}</td>
                         <td>@{{ user.username }}</td>
                         <td>@{{ user.name }}</td>
                         <td>@{{ user.email }}</td>
@@ -40,7 +40,7 @@
                                 @{{ user.status ? 'Active' : 'Non Active' }}
                             </div>
                         </td>
-                        <td>@{{ user.role }}</td>
+                        <td class="text-center">@{{ user.role }}</td>
                         <td class="row justify-content-center">
                             <a :href="actionUrl + '/' + user.id + '/edit'" v-if="user.role != 'admin'">
                                 <button class="btn btn-warning btn-sm" title="Edit">

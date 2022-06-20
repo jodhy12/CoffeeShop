@@ -44,10 +44,9 @@
                             </p>
                             <p class="card-text">@{{ product.description ? product.description : 'No Description' }} </p>
                             <p class="card-text">Rp. @{{ numberFormat(product.price) }}</p>
-                            <a :href="'{{ url('/add-to-cart') }}' + '/' + product.id">
+                            <form :action="'{{ url('/add-to-cart') }}' + '/' + product.id">
                                 <button class="btn btn-primary btn-sm" :disabled="!product.qty">Add to cart</button>
-                            </a>
-
+                            </form>
                         </div>
                     </div>
                 </div>
