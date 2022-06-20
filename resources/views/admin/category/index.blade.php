@@ -25,8 +25,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(category, value) in categories.data">
-                        <td class="text-center">@{{ categories.from + value }}</td>
+                    <tr v-for="(category, value) in categories">
+                        <td class="text-center">@{{ value + 1 }}</td>
                         <td>@{{ category.name }}</td>
                         <td>@{{ category.description }}</td>
                         <td class="row justify-content-center">

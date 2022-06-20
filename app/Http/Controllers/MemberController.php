@@ -51,12 +51,10 @@ class MemberController extends Controller
             'name' => ['required', 'max:64'],
             'gender' => ['required'],
             'phone_number' => ['required', 'min:10', 'max:13', 'unique:members'],
-            'status' => ['required', 'boolean'],
         ]);
 
         $data = $request->all();
         $data['name'] = ucwords($data['name']);
-        $data['status'] = intval($data['status']);
         Member::create($data);
 
         session()->flash('message', 'Data has been added');

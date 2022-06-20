@@ -70,7 +70,6 @@ class RegisterController extends Controller
             'name' => ucwords($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'status' => $data['status'],
             'role' => $data['role'],
         ]);
     }

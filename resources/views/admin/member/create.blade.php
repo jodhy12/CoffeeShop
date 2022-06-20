@@ -36,7 +36,6 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="status" value="1">
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary float-right">Submit</button>

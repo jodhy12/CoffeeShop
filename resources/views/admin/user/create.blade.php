@@ -44,8 +44,7 @@
                             </div>
 
                             <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Password" required
-                                    name="password">
+                                <input type="password" class="form-control" placeholder="Password" required name="password">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
@@ -70,8 +69,6 @@
                                     <option value="employee">Employee</option>
                                 </select>
                             </div>
-
-                            <input type="hidden" name="status" value="1">
 
                             <div class="col-4 float-right">
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>

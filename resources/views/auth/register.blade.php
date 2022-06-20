@@ -61,11 +61,12 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="status" value="1">
                     <input type="hidden" name="role" value="admin">
 
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <div class="row">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
                     </div>
                 </form>
             </div>

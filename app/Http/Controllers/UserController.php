@@ -12,8 +12,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('isAdmin:admin');
-        $this->middleware('auth');
+        $this->middleware(['auth', 'isAdmin:admin']);
     }
     /**
      * Display a listing of the resource.
@@ -57,7 +56,6 @@ class UserController extends Controller
             'name' => ucwords($request->name),
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => intval($request->status),
             'role' => $request->role,
         ]);
 
