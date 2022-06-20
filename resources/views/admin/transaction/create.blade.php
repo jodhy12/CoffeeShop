@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'New Transaction')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
+@endsection
 
+@section('title', 'New Transaction')
 @section('content')
     <div id="controller">
         <div class="card-header">
@@ -30,16 +35,17 @@
                                 </div>
 
                                 <div id="guess" class="form-group" style="padding: 10px 0 0 0">
-                                    <label>Name Customer</label>
+                                    <label>Customer Name</label>
                                     <input required type="text" class="form-control" placeholder="Enter Name"
                                         name="name_cust">
                                 </div>
 
                                 <div hidden id="member" class="form-group" style="padding: 10px 0 0 0">
-                                    <label>Name Member</label>
-                                    <select name="member_id" class="form-control" disabled>
-                                        <option value="" selected hidden> Choose Member</option>
-                                        <option :value="member.id" v-for="member in members">@{{ member.name }}
+                                    <label>Member Name</label>
+                                    <select name="member_id" class="form-control select2bs4" style="width:100%" disabled>
+                                        <option disabled selected> Choose Member</option>
+                                        <option :value="member.id" v-for="member in filteredMember">
+                                            @{{ member.name }}
                                         </option>
                                     </select>
                                 </div>
@@ -49,11 +55,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if (session()->has('message'))
-                        <div class="aler alert-success">
-                            {{ session()->get('message') }}
-                        </div>
-                    @endif
 
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -107,7 +108,12 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+        $(() => {
+            $('.select2bs4').select2()
+        })
+
         const {
             createApp
         } = Vue
@@ -124,6 +130,7 @@
 
             mounted() {
                 this.countTotal()
+
             },
 
             methods: {
@@ -141,6 +148,12 @@
                         this.total = this.subTotal.reduce((a, b) => a + b)
                     }
                 }
+            },
+
+            computed: {
+                filteredMember() {
+                    return this.members.filter(member => member.status != 0)
+                }
             }
 
         }).mount('#controller')
@@ -151,16 +164,17 @@
             if (checked) {
                 $('input[name=name_cust]').prop('disabled', true)
                 $('input[name=name_cust]').prop('required', false)
+                $('input[name=name_cust]').val('')
                 $('#guess').prop('hidden', true)
-                $('select[name=member_id]').prop('disabled', false)
-                $('select[name=member_id]').prop('required', true)
+                $('.select2bs4').prop('disabled', false)
+                $('.select2bs4').prop('required', true)
                 $('#member').prop('hidden', false)
             } else {
                 $('input[name=name_cust]').prop('disabled', false)
                 $('input[name=name_cust]').prop('required', true)
                 $('#guess').prop('hidden', false)
-                $('select[name=member_id]').prop('disabled', true)
-                $('select[name=member_id]').prop('required', false)
+                $('.select2bs4').prop('disabled', true)
+                $('.select2bs4').prop('required', false)
                 $('#member').prop('hidden', true)
             }
         })

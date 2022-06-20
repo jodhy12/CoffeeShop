@@ -156,107 +156,108 @@
                 </div>
             </div>
         </div>
+    </div>
 
-    @endsection
+@endsection
 
-    @section('js')
-        <script>
-            const {
-                createApp
-            } = Vue
+@section('js')
+    <script>
+        const {
+            createApp
+        } = Vue
 
-            createApp({
-                data() {
-                    return {
-                        actionUrl: '{{ route('transactions.index') }}',
-                        transactions: {!! json_encode($transactions) !!},
-                        pivotQty: {!! json_encode($pivotQty) !!},
-                        transaction: null,
-                    }
-                },
-
-                mounted() {
-                    $('#datatable').DataTable({
-                        autoWidth: false
-                    })
-                },
-
-                methods: {
-                    getDetails(transaction) {
-                        this.transaction = transaction
-                        $('#modal-lg').modal()
-                    },
-
-                    modalClose() {
-                        $('#modal-lg').modal('hide')
-                    },
-
-                    getDateFormat(x) {
-                        const d = new Date(x)
-                        let getYear = d.getFullYear()
-                        let getMonth = d.getMonth() + 1
-                        let getDate = d.getDate()
-
-                        if (getYear < 10) {
-                            getYear = '0' + getYear
-                        }
-                        if (getMonth < 10) {
-                            getMonth = '0' + getMonth
-                        }
-                        if (getDate < 10) {
-                            getDate = '0' + getDate
-                        }
-                        const date = getDate + '-' + getMonth + '-' + getYear
-                        return date;
-                    },
-
-                    getTimeFormat(x) {
-                        const d = new Date(x)
-                        let getHours = d.getHours()
-                        let getMinutes = d.getMinutes()
-                        let getSeconds = d.getSeconds()
-
-                        if (getHours < 10) {
-                            getHours = '0' + getHours
-                        }
-                        if (getMinutes < 10) {
-                            getMinutes = '0' + getMinutes
-                        }
-                        if (getSeconds < 10) {
-                            getSeconds = '0' + getSeconds
-                        }
-                        const time = getHours + ':' + getMinutes + ':' + getSeconds;
-                        return time;
-                    },
-
-                    numberFormat(x) {
-                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                    },
-
+        createApp({
+            data() {
+                return {
+                    actionUrl: '{{ route('transactions.index') }}',
+                    transactions: {!! json_encode($transactions) !!},
+                    pivotQty: {!! json_encode($pivotQty) !!},
+                    transaction: null,
                 }
-            }).mount('#controller')
-        </script>
-        <style>
-            td a button {
-                margin: 3px;
-            }
+            },
 
-            .grid-container {
-                display: grid;
-                grid-template-columns: 1fr;
-                margin: 20px 10px;
-                gap: 20px;
-            }
+            mounted() {
+                $('#datatable').DataTable({
+                    autoWidth: false
+                })
+            },
 
-            .grid-container label {
-                margin: 0;
-            }
+            methods: {
+                getDetails(transaction) {
+                    this.transaction = transaction
+                    $('#modal-lg').modal()
+                },
 
-            .grid-form {
-                display: grid;
-                grid-template-columns: 1fr 1.5fr;
-                padding-bottom: 10px;
-                align-items: center;
+                modalClose() {
+                    $('#modal-lg').modal('hide')
+                },
+
+                getDateFormat(x) {
+                    const d = new Date(x)
+                    let getYear = d.getFullYear()
+                    let getMonth = d.getMonth() + 1
+                    let getDate = d.getDate()
+
+                    if (getYear < 10) {
+                        getYear = '0' + getYear
+                    }
+                    if (getMonth < 10) {
+                        getMonth = '0' + getMonth
+                    }
+                    if (getDate < 10) {
+                        getDate = '0' + getDate
+                    }
+                    const date = getDate + '-' + getMonth + '-' + getYear
+                    return date;
+                },
+
+                getTimeFormat(x) {
+                    const d = new Date(x)
+                    let getHours = d.getHours()
+                    let getMinutes = d.getMinutes()
+                    let getSeconds = d.getSeconds()
+
+                    if (getHours < 10) {
+                        getHours = '0' + getHours
+                    }
+                    if (getMinutes < 10) {
+                        getMinutes = '0' + getMinutes
+                    }
+                    if (getSeconds < 10) {
+                        getSeconds = '0' + getSeconds
+                    }
+                    const time = getHours + ':' + getMinutes + ':' + getSeconds;
+                    return time;
+                },
+
+                numberFormat(x) {
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                },
+
             }
-        </style>
-    @endsection
+        }).mount('#controller')
+    </script>
+    <style>
+        td a button {
+            margin: 3px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            margin: 20px 10px;
+            gap: 20px;
+        }
+
+        .grid-container label {
+            margin: 0;
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            padding-bottom: 10px;
+            align-items: center;
+        }
+    </style>
+@endsection
