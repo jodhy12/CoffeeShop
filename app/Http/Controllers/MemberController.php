@@ -115,6 +115,14 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
-        return 'Not Finish Yet';
+        if ($member->status == 1) {
+            session()->flash('message', 'Can\'t delete when status active');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect('members');
+        }
+        $member->delete();
+        session()->flash('message', 'Data has been deleted');
+        session()->flash('alert-class', 'alert-success');
+        return redirect('members');
     }
 }

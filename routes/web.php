@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +49,7 @@ Route::delete('remove-cart', [CartController::class, 'removeCart'])->name('remov
 Route::resource('transactions', TransactionController::class)->only([
     'create', 'index', 'show', 'store'
 ]);
+Route::get('/transactions/{transaction}/receipt', [TransactionController::class, 'receipt'])->name('transactions.receipt');
 
 
 Route::get('/daily-report', [ReportController::class, 'daily'])->name('dailyReport');

@@ -1,7 +1,27 @@
 /* https://colorhunt.co/palette/8e3200a64b2ad7a86effebc1 */
 
-div a.btn{
-    width: 200px;
+.card-primary.card-outline {
+    border-top: none;
+}
+
+.main-sidebar{
+    background-color: rgb(135, 100, 69);
+}
+
+.nav-item p {
+    color: rgb(238, 195, 115);
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active{
+    background-color: rgba(244, 223, 186, .1);
+}
+
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active{
+    background-color: rgba(255,255,255, .05);
+}
+
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover{
+    background-color: rgba(255,255,255, .05);
 }
 
 td.row{
@@ -24,3 +44,5 @@ h5.card-title{
     color: #111;
     border-radius: 5px;
 }
+
+

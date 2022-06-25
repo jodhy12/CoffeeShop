@@ -20,54 +20,62 @@
             </div>
         </div>
 
-        <div class="card-body">
-            {{ displayMessage() }}
-            <table id="datatable" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th class="text-center">ID Tx</th>
-                        <th class="text-center">Date</th>
-                        <th class="text-center">Time</th>
-                        <th class="text-center">Name Employee</th>
-                        <th class="text-center">Name Customer</th>
-                        <th class="text-center">Member</th>
-                        <th class="text-center">Total Item</th>
-                        <th class="text-center">Total Payment</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(transaction, value) in transactions">
-                        <td class="text-center">@{{ value + 1 }}</td>
-                        <td class="text-center">@{{ transaction.id }}</td>
-                        <td class="text-center">@{{ getDateFormat(transaction.date_tx) }}</td>
-                        <td class="text-center">@{{ getTimeFormat(transaction.date_tx) }}</td>
-                        <td class="text-center">@{{ transaction.user.name }}</td>
-                        <td>@{{ transaction.member ? transaction.member.name : transaction.name_cust }}</td>
-                        <td class="text-center">@{{ transaction.member ? 'Yes' : 'No' }}</td>
-                        <td class="text-center">
-                            @{{ pivotQty[value].total }}
-                        </td>
-                        <td class="text-center">Rp. @{{ numberFormat(transaction.total) }}</td>
-                        <td class="text-center">
-                            <a :href="'{{ route('transactions.index') }}' + '/' + transaction.id" title="Detail">
-                                <button class="btn btn-warning btn-sm">
-                                    <i class="fa fa-eye"></i>
-                                </button>
-                            </a>
-                            <a @click="getDetails(transaction)" href="#" title="Detail">
-                                <button class="btn btn-warning btn-sm">
-                                    <i class="fa fa-eye"></i>
-                                    Modal
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card">
+            <div class="card-body">
+                {{ displayMessage() }}
+                <table id="datatable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">ID Tx</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Time</th>
+                            <th class="text-center">Name Employee</th>
+                            <th class="text-center">Name Customer</th>
+                            <th class="text-center">Member</th>
+                            <th class="text-center">Total Item</th>
+                            <th class="text-center">Total Payment</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(transaction, value) in transactions">
+                            <td class="text-center">@{{ value + 1 }}</td>
+                            <td class="text-center">@{{ transaction.id }}</td>
+                            <td class="text-center">@{{ getDateFormat(transaction.date_tx) }}</td>
+                            <td class="text-center">@{{ getTimeFormat(transaction.date_tx) }}</td>
+                            <td class="text-center">@{{ transaction.user.name }}</td>
+                            <td>@{{ transaction.member ? transaction.member.name : transaction.name_cust }}</td>
+                            <td class="text-center">@{{ transaction.member ? 'Yes' : 'No' }}</td>
+                            <td class="text-center">
+                                @{{ pivotQty[value].total }}
+                            </td>
+                            <td class="text-center">Rp. @{{ numberFormat(transaction.total) }}</td>
+                            <td class="text-center">
+                                <a :href="'{{ route('transactions.index') }}' + '/' + transaction.id" title="Detail">
+                                    <button class="btn btn-warning btn-sm">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </a>
+                                <a @click="getDetails(transaction)" href="#" title="Detail">
+                                    <button class="btn btn-warning btn-sm">
+                                        <i class="fa fa-eye"></i>
+                                        Modal
+                                    </button>
+                                </a>
+                                <a @click="printPage('{{ route('transactions.index') }}' + '/' + transaction.id + '/receipt')"
+                                    href="#" title="Print">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fa fa-print"></i>
+                                    </button>
+                                </a>
+                                <div id="printerDiv" style="display:none"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
         <div class="modal fade" id="modal-lg">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -233,6 +241,11 @@
                 numberFormat(x) {
                     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                 },
+
+                printPage(url) {
+                    let div = document.getElementById("printerDiv");
+                    div.innerHTML = '<iframe src="' + url + '" onload="this.contentWindow.print();"></iframe>';
+                }
 
             }
         }).mount('#controller')

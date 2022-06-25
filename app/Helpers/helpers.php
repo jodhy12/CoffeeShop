@@ -16,7 +16,6 @@ function dateGMT7($value)
     return $date->format('d-m-Y');
 }
 
-
 function dateDbGMT7($value)
 {
     $date = new DateTime($value);
@@ -29,6 +28,11 @@ function monthGMT7($value)
     $date = new DateTime($value);
     $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
     return $date->format('F');
+}
+
+function formatRupiah($value)
+{
+    return number_format($value, 0, '', '.');
 }
 
 function removeQtyProduct($id, $qty)

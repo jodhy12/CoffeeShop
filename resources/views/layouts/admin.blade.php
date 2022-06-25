@@ -49,21 +49,18 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="nav-link"><i class="fas fa-sign-out-alt"></i>
-                        Logout
+                    <a href="#" class="nav-link">
+                        <span>
+                            Hello, {{ Auth::user()->name }}
+                        </span>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                    </form>
                 </li>
             </ul>
         </nav>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
                 <img src="{{ asset('storage/logo/logo.png') }}" alt="AdminLTE Logo"
@@ -74,18 +71,9 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                            alt="User Image">
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                    </div>
-                </div>
 
                 <!-- Sidebar Menu -->
-                <nav class="mt-2">
+                <nav class="pt-5">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
@@ -173,10 +161,25 @@
                                 </ul>
                             </li>
                         @endif
-
+                        <li class="nav-item pt-5">
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
+            </div>
+            <div class="sidebar pt-2" style="border-top: 1px solid #4b545c">
+                <ul class="nav nav-pills nav-sidebar flex-column">
+                    <li class="nav-item">
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="nav-link"><i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
             </div>
             <!-- /.sidebar -->
         </aside>

@@ -61,6 +61,9 @@
             },
             {
                 data: 'date',
+                render(data) {
+                    return controller.getDateFormat(data)
+                },
                 class: 'text-center',
                 orderable: true,
             },

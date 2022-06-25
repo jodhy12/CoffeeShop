@@ -30,10 +30,11 @@ class TransactionController extends Controller
     public function index()
     {
         if (Auth::user()->role == 'admin') {
-            $transactions = Transaction::with('products', 'member', 'user')->get();
+            $transactions = Transaction::with('products', 'member', 'user')->orderByRaw('day(date_tx) desc')->get();
         } else {
             $transactions = Transaction::with('products', 'member', 'user')
                 ->whereRaw('day(date_tx) = day(curdate())')
+                ->orderByRaw('day(date_tx) desc')
                 ->get();
         }
         $pivotQty = TransactionDetail::selectRaw('sum(qty) as total')->groupBy('transaction_id')->get();
@@ -76,6 +77,7 @@ class TransactionController extends Controller
             'date_tx' => ['required'],
         ]);
 
+
         $data = $request->all();
 
         // Get Data from Cart
@@ -101,7 +103,6 @@ class TransactionController extends Controller
             // Remove quantity from Product
             removeQtyProduct($key, $cart['qty']);
         }
-
         // Clear all cart
         $request->session()->forget('cart');
 
@@ -154,5 +155,12 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //
+    }
+
+    public function receipt(Transaction $transaction)
+    {
+        $txDetail = Transaction::with('products', 'member', 'user')->where('id', '=', $transaction->id)->get();
+        // return $txDetail;
+        return view('admin.transaction.receipt', compact('txDetail'));
     }
 }

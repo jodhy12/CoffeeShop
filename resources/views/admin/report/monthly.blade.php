@@ -88,6 +88,9 @@
             },
             {
                 data: 'date',
+                render(data) {
+                    return controller.getDateFormat(data)
+                },
                 class: 'text-center',
                 orderable: true,
             },
@@ -182,6 +185,25 @@
 
                 },
 
+                getDateFormat(x) {
+                    const d = new Date(x)
+                    let getYear = d.getFullYear()
+                    let getMonth = d.getMonth() + 1
+                    let getDate = d.getDate()
+
+                    if (getYear < 10) {
+                        getYear = '0' + getYear
+                    }
+                    if (getMonth < 10) {
+                        getMonth = '0' + getMonth
+                    }
+                    if (getDate < 10) {
+                        getDate = '0' + getDate
+                    }
+                    const date = getDate + '-' + getMonth + '-' + getYear
+                    return date;
+                },
+
                 numberWithSpaces(x) {
                     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                 },
@@ -210,7 +232,13 @@
                         const config = {
                             type: 'line',
                             data: data,
-                            options: {}
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
                         }
                         _this.txChart = new Chart(ctx, config)
                     }
