@@ -159,6 +159,9 @@
                             <button @click="modalClose" type="button" class="btn btn-default">
                                 <span>Back</span>
                             </button>
+                            <button @click="printPage('{{ route('transactions.index') }}' + '/' + transaction.id + '/receipt')" type="button" class="btn btn-primary">
+                                <span>Print</span>
+                            </button>
                         </div>
                     </div>
                 </div>
