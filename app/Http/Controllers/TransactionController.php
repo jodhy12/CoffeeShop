@@ -160,7 +160,6 @@ class TransactionController extends Controller
     public function receipt(Transaction $transaction)
     {
         $txDetail = Transaction::with('products', 'member', 'user')->where('id', '=', $transaction->id)->get();
-        // return $txDetail;
         return view('admin.transaction.receipt', compact('txDetail'));
     }
 }

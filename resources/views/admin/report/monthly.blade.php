@@ -187,20 +187,12 @@
 
                 getDateFormat(x) {
                     const d = new Date(x)
-                    let getYear = d.getFullYear()
-                    let getMonth = d.getMonth() + 1
-                    let getDate = d.getDate()
+                    let getYear = d.getFullYear() < 10 ? '0' + d.getFullYear() : d.getFullYear()
+                    let getMonth = d.getMonth() + 1 < 10 ? '0' + d.getMonth() : d.getMonth()
+                    let getDate = d.getDate() < 10 ? '0' + d.getDate() : d.getDate()
 
-                    if (getYear < 10) {
-                        getYear = '0' + getYear
-                    }
-                    if (getMonth < 10) {
-                        getMonth = '0' + getMonth
-                    }
-                    if (getDate < 10) {
-                        getDate = '0' + getDate
-                    }
                     const date = getDate + '-' + getMonth + '-' + getYear
+
                     return date;
                 },
 

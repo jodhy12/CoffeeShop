@@ -159,7 +159,9 @@
                             <button @click="modalClose" type="button" class="btn btn-default">
                                 <span>Back</span>
                             </button>
-                            <button @click="printPage('{{ route('transactions.index') }}' + '/' + transaction.id + '/receipt')" type="button" class="btn btn-primary">
+                            <button
+                                @click="printPage('{{ route('transactions.index') }}' + '/' + transaction.id + '/receipt')"
+                                type="button" class="btn btn-primary">
                                 <span>Print</span>
                             </button>
                         </div>
@@ -205,38 +207,21 @@
 
                 getDateFormat(x) {
                     const d = new Date(x)
-                    let getYear = d.getFullYear()
-                    let getMonth = d.getMonth() + 1
-                    let getDate = d.getDate()
+                    let getYear = d.getFullYear() < 10 ? '0' + d.getFullYear() : d.getFullYear()
+                    let getMonth = d.getMonth() + 1 < 10 ? '0' + d.getMonth() : d.getMonth()
+                    let getDate = d.getDate() < 10 ? '0' + d.getDate() : d.getDate()
 
-                    if (getYear < 10) {
-                        getYear = '0' + getYear
-                    }
-                    if (getMonth < 10) {
-                        getMonth = '0' + getMonth
-                    }
-                    if (getDate < 10) {
-                        getDate = '0' + getDate
-                    }
                     const date = getDate + '-' + getMonth + '-' + getYear
+
                     return date;
                 },
 
                 getTimeFormat(x) {
                     const d = new Date(x)
-                    let getHours = d.getHours()
-                    let getMinutes = d.getMinutes()
-                    let getSeconds = d.getSeconds()
+                    let getHours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours()
+                    let getMinutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()
+                    let getSeconds = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds()
 
-                    if (getHours < 10) {
-                        getHours = '0' + getHours
-                    }
-                    if (getMinutes < 10) {
-                        getMinutes = '0' + getMinutes
-                    }
-                    if (getSeconds < 10) {
-                        getSeconds = '0' + getSeconds
-                    }
                     const time = getHours + ':' + getMinutes + ':' + getSeconds;
                     return time;
                 },
