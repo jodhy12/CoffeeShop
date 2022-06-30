@@ -40,6 +40,20 @@
                     </div>
                 </form>
             </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>For Admin</h5>
+                        <p>username: admin</p>
+                        <p>password: admin1234</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>For Employee</h5>
+                        <p>username: employeesatu</p>
+                        <p>password: test1234</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
