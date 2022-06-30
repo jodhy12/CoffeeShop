@@ -14,9 +14,14 @@ class ReportController extends Controller
         $this->middleware(['auth', 'isAdmin:admin']);
     }
 
-    public function daily()
+    public function daily(Request $request)
     {
-        return view('admin.report.daily');
+        $reqDate = "";
+        if ($request->date) {
+            $reqDate = $request->date;
+            return view('admin.report.daily', compact('reqDate'));
+        }
+        return view('admin.report.daily', compact('reqDate'));
     }
 
     public function apiDaily(Request $request)

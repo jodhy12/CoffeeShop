@@ -11,7 +11,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Search Date</label>
-                                    <input type="date" class="form-control" name="date">
+                                    <input type="date" class="form-control" name="date" :value="reqDate">
                                 </div>
                                 <div class="row flex-nowrap">
                                     <input id="dateText" type="text" class="form-control" disabled>
@@ -114,18 +114,24 @@
                     transactions: [],
                     apiUrl,
                     total: 0,
+                    reqDate: {!! json_encode($reqDate) !!}
                 }
             },
             mounted() {
-                this.dataTables()
+                this.dataTables(this.reqDate)
             },
             methods: {
-
-                dataTables() {
+                dataTables(reqDate) {
+                    let url = ''
+                    if (reqDate) {
+                        url = this.apiUrl + '?date=' + reqDate
+                    } else {
+                        url = this.apiUrl
+                    }
                     const _this = this
                     _this.table = $('#datatable').DataTable({
                         ajax: {
-                            url: this.apiUrl,
+                            url: url,
                             type: 'GET'
                         },
                         columns,
@@ -135,9 +141,13 @@
                         this.transactions = _this.table.ajax.json().data
                         this.total = _this.table.ajax.json().total
                     })
-
-                    $('#dateText').val('Date : {!! dateGMT7(date('Y-m-d H:i:s')) !!}')
-                    $('#income').html('Total Income at {!! dateGMT7(date('Y-m-d H:i:s')) !!} : ')
+                    if (reqDate) {
+                        $('#dateText').val('Date : ' + this.getDateFormat(reqDate) + '')
+                        $('#income').html('Total Income at ' + this.getDateFormat(reqDate) + ' : ')
+                    } else {
+                        $('#dateText').val('Date : {!! dateGMT7(date('Y-m-d H:i:s')) !!}')
+                        $('#income').html('Total Income at {!! dateGMT7(date('Y-m-d H:i:s')) !!} : ')
+                    }
 
                 },
 

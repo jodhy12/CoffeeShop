@@ -81,6 +81,7 @@
 
     <script>
         const apiUrl = '{{ route('apiMonthlyReport') }}'
+        const dailyUrl = '{{ route('dailyReport') }}'
         const columns = [{
                 data: 'DT_RowIndex',
                 class: 'text-center',
@@ -89,7 +90,7 @@
             {
                 data: 'date',
                 render(data) {
-                    return controller.getDateFormat(data)
+                    return '<a href="' + dailyUrl + '?date=' + data + '">' + controller.getDateFormat(data) + '</a>'
                 },
                 class: 'text-center',
                 orderable: true,
