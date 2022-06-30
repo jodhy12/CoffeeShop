@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes([
-    'register' => false,
+    // 'register' => false,
 ]);
 
 Route::get('/', function () {
