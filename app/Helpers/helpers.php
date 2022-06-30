@@ -56,3 +56,8 @@ function displayMessage()
         echo '<div class="alert ' . session()->get('alert-class', 'alert-info') . ' ">' . session()->get('message') . '</div>';
     }
 }
+
+function callDaysInMonth($month, $year)
+{
+    return date('t', mktime(0, 0, 0, $month, 1, $year));
+}

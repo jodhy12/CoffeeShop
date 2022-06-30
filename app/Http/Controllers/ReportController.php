@@ -12,7 +12,6 @@ class ReportController extends Controller
     public function __construct()
     {
         $this->middleware(['auth', 'isAdmin:admin']);
-        $this->middleware('isAdmin:admin');
     }
 
     public function daily()
@@ -72,7 +71,7 @@ class ReportController extends Controller
             ->whereMonth('date_tx', '' . $month['month'] . '')
             ->pluck('totalPerMonth');
 
-        $countDayInMonth = cal_days_in_month(CAL_GREGORIAN, $month['month'], 2022);
+        $countDayInMonth = callDaysInMonth($month['month'], 2022);
 
         $labelDay = [];
         $dataDay = [];
