@@ -9,6 +9,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,12 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes([
     'register' => false,
 ]);
+
+Route::get('/artisan/storage', function () {
+    $command = 'storage:link';
+    $result = Artisan::call($command);
+    return Artisan::output();
+});
 
 Route::get('/', function () {
     return redirect('home');
