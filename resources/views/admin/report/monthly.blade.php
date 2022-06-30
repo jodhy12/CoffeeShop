@@ -90,7 +90,8 @@
             {
                 data: 'date',
                 render(data) {
-                    return '<a href="' + dailyUrl + '?date=' + data + '">' + controller.getDateFormat(data) + '</a>'
+                    return '<a target="_blank" href="' + dailyUrl + '?date=' + data + '">' + controller.getDateFormat(
+                        data) + '</a>'
                 },
                 class: 'text-center',
                 orderable: true,
