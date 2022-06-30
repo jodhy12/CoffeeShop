@@ -127,15 +127,15 @@
                                     <p> Category </p>
                                 </a>
                             </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('users.index') }}"
-                                    class="nav-link {{ request()->is('users') ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p> User </p>
-                                </a>
-                            </li>
-
+                            @if (Auth::user()->role == 'superadmin')
+                                <li class="nav-item">
+                                    <a href="{{ route('users.index') }}"
+                                        class="nav-link {{ request()->is('users') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p> User </p>
+                                    </a>
+                                </li>
+                            @endif
                             <li
                                 class="nav-item {{ request()->is('daily-report') || request()->is('monthly-report') ? 'menu-open' : '' }}">
                                 <a href="#"
@@ -161,8 +161,6 @@
                                 </ul>
                             </li>
                         @endif
-                        <li class="nav-item pt-5">
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
