@@ -32,7 +32,7 @@ Route::get('/artisan/storage', function () {
     $command = 'storage:link';
     $result = Artisan::call($command);
     return Artisan::output();
-});
+})->name('storage');
 
 Route::get('/', function () {
     return redirect('home');

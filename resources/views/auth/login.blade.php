@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="login-box">
-
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="#" class="h1"><b>Login</a>
@@ -42,7 +41,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-6">
