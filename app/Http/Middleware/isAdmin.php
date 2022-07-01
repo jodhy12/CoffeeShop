@@ -15,11 +15,10 @@ class isAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $is_admin)
+    public function handle(Request $request, Closure $next, ...$is_admin)
     {
         $role = Auth::user()->role;
-        $role_array = explode(',', $role);
-        if (in_array($is_admin, $role_array)) {
+        if (in_array($role, $is_admin)) {
             return $next($request);
         }
         return abort(403, 'Forbidden, Unauthorized Action');

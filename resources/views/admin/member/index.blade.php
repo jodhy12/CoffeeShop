@@ -24,7 +24,7 @@
                             <th class="text-center">Gender</th>
                             <th class="text-center">Phone Number</th>
                             <th class="text-center">Status</th>
-                            @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->role == 'admin' || 'superadmin')
                                 <th class="text-center">Action</th>
                             @endif
                         </tr>
@@ -41,7 +41,7 @@
                                     @{{ member.status ? 'Active' : 'Non Active' }}
                                 </div>
                             </td>
-                            @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->role == 'admin' || 'superadmin')
                                 <td class="row justify-content-center">
                                     <a :href="actionUrl + '/' + member.id + '/edit'">
                                         <button class="btn btn-warning btn-sm" title="Edit">

@@ -43,18 +43,22 @@
                             </td>
                             <td class="text-center">@{{ user.role }}</td>
                             <td class="row justify-content-center">
-                                <a :href="actionUrl + '/' + user.id + '/edit'" v-if="user.role != 'admin'">
-                                    <button class="btn btn-warning btn-sm" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </a>
-                                <form :action="actionUrl + '/' + user.id" method="POST" v-if="user.role != 'admin'">
-                                    @csrf
-                                    @method('delete')
+                                @if (Auth::user()->role === 'superadmin')
+                                    <a :href="actionUrl + '/' + user.id + '/edit'" v-if="user.role != 'superadmin'">
+                                        <button class="btn btn-warning btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form :action="actionUrl + '/' + user.id" method="POST"
+                                        v-if="user.role != 'superadmin'">
+                                        @csrf
+                                        @method('delete')
 
-                                    <button onclick="return confirm('Are you sure delete this ?')" type="submit"
-                                        title="Delete" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                </form>
+                                        <button onclick="return confirm('Are you sure delete this ?')" type="submit"
+                                            title="Delete" class="btn btn-danger btn-sm"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     </tbody>

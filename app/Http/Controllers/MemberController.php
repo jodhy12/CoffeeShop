@@ -11,7 +11,7 @@ class MemberController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('isAdmin:admin')
+        $this->middleware('isAdmin:admin,superadmin')
             ->only([
                 'edit',
                 'update',

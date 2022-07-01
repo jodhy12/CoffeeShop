@@ -84,11 +84,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->role == 'admin') {
-
+        if (Auth::user()->role == 'superadmin') {
+            if ($user->role == 'superadmin') {
+                // abort(404, 'Page Not Found');
+            }
+            return view('admin.user.edit', compact('user'));
+        }
+        if ($user->role == 'admin' || 'superadmin') {
             abort(404, 'Page Not Found');
         }
-        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -104,9 +108,8 @@ class UserController extends Controller
         $this->validate($request, [
             'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'role' => ['required', 'in:admin,employee'],
+            'role' => ['required', 'in:superadmin,admin,employee'],
         ]);
-
         $user->update([
             'username' => strtolower($request->username),
             'name' => ucwords($request->name),
@@ -128,7 +131,20 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->role != 'admin') {
+        if (Auth::user()->role == 'superadmin') {
+            if ($user->role == 'superadmin') {
+                session()->flash('message', 'Cannot delete this role');
+                session()->flash('alert-class', 'alert-danger');
+                return redirect('users');
+            }
+
+            $user->delete();
+
+            session()->flash('message', 'Data has been removed');
+            session()->flash('alert-class', 'alert-success');
+            return redirect('users');
+        }
+        if ($user->role != 'admin' || 'superadmin') {
             $user->delete();
 
             session()->flash('message', 'Data has been removed');

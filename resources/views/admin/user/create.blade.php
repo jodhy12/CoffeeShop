@@ -65,8 +65,11 @@
 
                             <div class="input-group mb-3">
                                 <select name="role" class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="employee">Employee</option>
+                                    @if (Auth::user()->role === 'superadmin')
+                                        <option value="admin">Admin</option>
+                                    @elseif (Auth::user()->role === 'admin')
+                                        <option value="employee">Employee</option>
+                                    @endif
                                 </select>
                             </div>
 

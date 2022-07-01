@@ -15,7 +15,7 @@ class TransactionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('isAdmin:admin')->only([
+        $this->middleware('isAdmin:admin,superadmin')->only([
             'edit',
             'delete',
             'update',
@@ -29,7 +29,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin' || 'superadmin') {
             $transactions = Transaction::with('products', 'member', 'user')->orderByRaw('day(date_tx) desc')->get();
         } else {
             $transactions = Transaction::with('products', 'member', 'user')

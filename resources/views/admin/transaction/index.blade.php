@@ -6,7 +6,7 @@
             <div class="col-md-6">
                 <div class="card card-default align-items-center">
                     <div class="card-header">
-                        @if (Auth::user()->role != 'admin')
+                        @if (Auth::user()->role == 'employee')
                             <h3 class="card-title">
                                 List of transaction Period <b>{{ dateGMT7(date('Y-m-d H:i:s')) }}</b>
                             </h3>

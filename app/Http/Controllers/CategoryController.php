@@ -10,7 +10,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'isAdmin:admin']);
+        $this->middleware(['auth', 'isAdmin:admin,superadmin']);
     }
 
     /**

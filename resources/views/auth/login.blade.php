@@ -31,15 +31,18 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    @error('username')
+                        <div class="error text-danger">{{ $message }}</div>
+                    @enderror
 
+                    <div class="row">
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
-
                     </div>
                 </form>
             </div>
+
             <div class="card-footer">
                 <div class="row">
                     <div class="col-md-6">

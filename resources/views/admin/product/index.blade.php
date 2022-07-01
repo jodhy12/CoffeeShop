@@ -3,7 +3,7 @@
 @section('content')
     <div id="controller">
         <div class="card">
-            @if (Auth::user()->role == 'admin')
+            @if (Auth::user()->role == 'admin' || 'superadmin')
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-12">
@@ -28,7 +28,7 @@
                             <th class="text-center">Qty</th>
                             <th class="text-center">Price</th>
 
-                            @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->role == 'admin' || 'superadmin')
                                 <th class="text-center">Action</th>
                             @endif
                         </tr>
@@ -49,7 +49,7 @@
                             <td class="text-center align-middle">@{{ product.qty }}</td>
                             <td class="text-center align-middle">Rp. @{{ numberFormat(product.price) }}</td>
 
-                            @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->role == 'admin' || 'superadmin')
                                 <td class="align-middle text-center">
                                     <a :href="actionUrl + '/' + product.id + '/edit'">
                                         <button class="btn btn-warning btn-sm" title="Edit" style="margin-bottom: 5px">
