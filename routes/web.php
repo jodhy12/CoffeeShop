@@ -29,9 +29,8 @@ Auth::routes([
 ]);
 
 Route::get('/artisan/storage', function () {
-    $command = 'storage:link';
-    $result = Artisan::call($command);
-    return Artisan::output();
+    Artisan::call('storage:link');
+    return redirect()->back();
 })->name('storage');
 
 Route::get('/', function () {
