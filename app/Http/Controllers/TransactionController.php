@@ -29,7 +29,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role != 'admin' || 'superadmin') {
+        if (Auth::user()->role !== 'employee') {
             $transactions = Transaction::with('products', 'member', 'user')->orderByRaw('date(date_tx) desc')->get();
         } else {
             $transactions = Transaction::with('products', 'member', 'user')

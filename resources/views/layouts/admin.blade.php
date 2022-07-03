@@ -48,11 +48,11 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('storage') }}" class="nav-link">
                         <b>Click this for active storage</b>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <span>

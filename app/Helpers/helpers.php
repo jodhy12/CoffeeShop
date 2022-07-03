@@ -5,7 +5,7 @@ use App\Models\Product;
 function dateGMT($value)
 {
     $date = new DateTime($value);
-    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
     return $date->format('Y-m-d H:i:s');
 }
 
