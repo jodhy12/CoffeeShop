@@ -29,12 +29,12 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == 'admin' || 'superadmin') {
-            $transactions = Transaction::with('products', 'member', 'user')->orderByRaw('day(date_tx) desc')->get();
+        if (Auth::user()->role != 'admin' || 'superadmin') {
+            $transactions = Transaction::with('products', 'member', 'user')->orderByRaw('date(date_tx) desc')->get();
         } else {
             $transactions = Transaction::with('products', 'member', 'user')
                 ->whereRaw('day(date_tx) = day(curdate())')
-                ->orderByRaw('day(date_tx) desc')
+                ->orderByRaw('date(date_tx) desc')
                 ->get();
         }
         $pivotQty = TransactionDetail::selectRaw('sum(qty) as total')->groupBy('transaction_id')->get();
