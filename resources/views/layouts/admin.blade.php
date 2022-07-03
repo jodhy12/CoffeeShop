@@ -48,11 +48,11 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('storage') }}" class="nav-link">
                         <b>Click this for active storage</b>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <span>
@@ -124,7 +124,7 @@
                             </a>
                         </li>
 
-                        @if (Auth::user()->role != 'employee')
+                        @if (Auth::user()->role !== 'employee')
                             <li class="nav-item">
                                 <a href="{{ route('categories.index') }}"
                                     class="nav-link {{ request()->is('categories') ? 'active' : '' }}">
@@ -132,15 +132,13 @@
                                     <p> Category </p>
                                 </a>
                             </li>
-                            @if (Auth::user()->role == 'superadmin')
-                                <li class="nav-item">
-                                    <a href="{{ route('users.index') }}"
-                                        class="nav-link {{ request()->is('users') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-user"></i>
-                                        <p> User </p>
-                                    </a>
-                                </li>
-                            @endif
+                            <li class="nav-item">
+                                <a href="{{ route('users.index') }}"
+                                    class="nav-link {{ request()->is('users') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p> User </p>
+                                </a>
+                            </li>
                             <li
                                 class="nav-item {{ request()->is('daily-report') || request()->is('monthly-report') ? 'menu-open' : '' }}">
                                 <a href="#"

@@ -43,7 +43,7 @@
                             </td>
                             <td class="text-center">@{{ user.role }}</td>
                             <td class="row justify-content-center">
-                                @if (Auth::user()->role === 'superadmin')
+                                @if (Auth::user()->role !== 'employee')
                                     <a :href="actionUrl + '/' + user.id + '/edit'" v-if="user.role != 'superadmin'">
                                         <button class="btn btn-warning btn-sm" title="Edit">
                                             <i class="fas fa-edit"></i>

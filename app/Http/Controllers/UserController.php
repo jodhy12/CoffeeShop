@@ -12,7 +12,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'isAdmin:superadmin']);
+        $this->middleware(['auth', 'isAdmin:superadmin,admin']);
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +21,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        if (auth()->user()->role === 'admin') {
+            $users = User::where('role', 'employee')->get();
+        } else {
+            $users = User::all();
+        }
         return view('admin.user.index', compact('users'));
     }
 
@@ -48,9 +52,17 @@ class UserController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'in:admin,employee'],
         ]);
 
+        if (auth()->user()->role === 'admin') {
+            $this->validate($request, [
+                'role' => ['required', 'in:employee'],
+            ]);
+        } else {
+            $this->validate($request, [
+                'role' => ['required', 'in:admin,employee'],
+            ]);
+        }
         User::create([
             'username' => strtolower($request->username),
             'name' => ucwords($request->name),
@@ -86,13 +98,14 @@ class UserController extends Controller
     {
         if (Auth::user()->role == 'superadmin') {
             if ($user->role == 'superadmin') {
-                // abort(404, 'Page Not Found');
+                abort(404, 'Page Not Found');
             }
             return view('admin.user.edit', compact('user'));
         }
-        if ($user->role == 'admin' || 'superadmin') {
+        if ($user->role !== 'employee') {
             abort(404, 'Page Not Found');
         }
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -110,6 +123,17 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'role' => ['required', 'in:superadmin,admin,employee'],
         ]);
+
+        if (auth()->user()->role === 'admin') {
+            $this->validate($request, [
+                'role' => ['required', 'in:employee'],
+            ]);
+        } else {
+            $this->validate($request, [
+                'role' => ['required', 'in:superadmin,admin,employee'],
+            ]);
+        }
+
         $user->update([
             'username' => strtolower($request->username),
             'name' => ucwords($request->name),
@@ -144,7 +168,7 @@ class UserController extends Controller
             session()->flash('alert-class', 'alert-success');
             return redirect('users');
         }
-        if ($user->role != 'admin' || 'superadmin') {
+        if ($user->role === 'employee') {
             $user->delete();
 
             session()->flash('message', 'Data has been removed');
